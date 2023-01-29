@@ -1,13 +1,102 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;700&display=swap');
+
+
+:root{
+--color-white:#fff;
+--color-black:#000;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+*{
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
 }
+
+body {
+    background-image:url("./assets/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+
+
+
+
+
+@media only screen and (max-width:768px) {
+
+    .container {
+        padding: 20px;
+    }
+
+    .future-forecast {
+        justify-content: start;
+        align-items: none;
+        overflow-y: scroll;
+    }
+
+    .future-forecast .today .temp {
+        font-size: 16px;
+    }
+
+    .date-container .time {
+        font-size: 50px;
+    }
+
+    .date-container #am-pm {
+        font-size: 20px;
+    }
+
+    .date-container .date {
+        font-size: 20px;
+    }
+
+    .place-container {
+        text-align: end;
+        margin-top: 15px;
+    }
+
+    .place-container .time-zone {
+        font-size: 20px;
+    }
+
+    .current-info .others {
+        padding: 12px;
+    }
+
+    .current-info .others .weather-item {
+        font-size: 14px;
+    }
+
+}
+
+@media only screen and (max-width: 1400px) {
+    .future-forecast {
+        justify-content: start;
+        align-items: none;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        margin-top: 200px;
+    }
+}
+
+
+

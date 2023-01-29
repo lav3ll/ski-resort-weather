@@ -1,0 +1,46 @@
+.current-info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.date-container {
+    font-weight: 200;
+}
+
+.date-container .time {
+    font-size: 70px;
+    font-weight: 200;
+}
+
+.date-container #am-pm {
+    font-size: 30px;
+}
+
+.date-container .date {
+    font-size: 30px;
+}
+
+.current-weather-items {
+    display: flex;
+    flex-direction: column;
+    background: rgba(24, 24, 27, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px 0;
+    border: 1px solid #eee;
+}
+
+.current-info .others .weather-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.others{
+    background:rgba(24, 24, 27, 0.6);
+    border:1px solid #eee;
+    border-radius: 10px;
+    margin: 10px 0;
+    color: #eee;
+    padding: 20px;
+}
