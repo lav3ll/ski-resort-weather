@@ -19,12 +19,17 @@
     .place-container .time-zone {
         font-size: 10px;
     }
-    
+
+  
 }
 
 @media only screen and (max-width: 1400px) {
     .place-container .time-zone {
-        font-size: 10px;
+        font-size: 10px;   
+    }
+
+    .place-container .country {
+        font-size: .6rem;
     }
    
 }
