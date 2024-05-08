@@ -11,9 +11,7 @@ const Futureweather = ({ reff, options }) => {
     currentWeather: {},
   });
 
-  const [today, setToday] = useState(
-    new Date().toLocaleString('default', { weekday: 'long' })
-  );
+  const today = new Date().toLocaleString('default', { weekday: 'long' });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
