@@ -48,8 +48,7 @@ const Futureweather = ({ reff, options }) => {
         if (lat && lon) {
           const currentWeather = await axios
             .get(
-              `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.API_Key2
-              }`
+              `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.API_Key2}`
             )
             .then((res) => res.data);
 

@@ -1,5 +1,5 @@
 import './main.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Futureweather from './futureweather/Futureweather';
 import Datetime from './datetime/Datetime';
 import Country from './country/Country';
