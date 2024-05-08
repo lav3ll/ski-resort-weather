@@ -10,7 +10,7 @@ const Country = ({ reff }) => {
     const options = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': process.env.API_Key,
+        'X-RapidAPI-Key': process.env.REACT_APP_API_Key,
       },
     };
 
