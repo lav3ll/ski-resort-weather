@@ -69,6 +69,7 @@ const Futureweather = ({ reff, options }) => {
     };
 
     fetchWeatherData();
+    // eslint-disable-next-line
   }, [reff.current.value, options]);
 
   if (loading) {

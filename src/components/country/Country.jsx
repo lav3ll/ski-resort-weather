@@ -43,6 +43,7 @@ const Country = ({ reff }) => {
     };
 
     getWeatherDataFetch();
+    // eslint-disable-next-line
   }, [reff.current.value]);
 
   return (
