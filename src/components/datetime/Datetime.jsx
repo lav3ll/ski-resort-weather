@@ -21,7 +21,9 @@ const Datetime = ({ reff, options }) => {
           `https://ski-resort-forecast.p.rapidapi.com/${reff.current.value}/snowConditions?units=i`,
           options
         );
+
         const jsonData = await response.json();
+
         setWeatherData(jsonData);
       } catch (error) {
         console.error('Error fetching weather data:', error);

@@ -2,6 +2,7 @@ import './futureweather.css';
 import { useState, useEffect } from 'react';
 import Otherdays from './otherdays/Otherdays';
 import API_Key2 from '../../apikey2';
+import axios from axios
 
 const Futureweather = ({ reff, options }) => {
   const [weather, setWeather] = useState({
@@ -43,9 +44,10 @@ const Futureweather = ({ reff, options }) => {
         if (conditionsData.basicInfo) {
           const { lat, lon } = conditionsData.basicInfo;
           const weatherResponse = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${lon}&lon=${lat}&exclude=hourly,minutely&units=metric&appid=${API_Key2}`,
-            { mode: 'cors' }
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lon}&lon=${lat}&appid=${API_Key2}`
           );
+
+          console.log(weatherResponse);
           const currentWeather = await weatherResponse.json();
           setWeather((prev) => ({ ...prev, currentWeather }));
         }
