@@ -5,13 +5,12 @@ import Datetime from './datetime/Datetime';
 import Country from './country/Country';
 import { useRef } from 'react';
 import SearchBtn from './search/SearchBtn';
-import API_Key from '../apikey';
 
 const Main = () => {
   const options = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': API_Key,
+      'X-RapidAPI-Key': process.env.API_Key,
     },
   };
   const [isWeatherShown, setWeatherisShown] = useState(false);

@@ -2,7 +2,6 @@ import './futureweather.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Otherdays from './otherdays/Otherdays';
-import API_Key2 from '../../apikey2';
 
 // Main component to display future weather conditions based on a reference location
 const Futureweather = ({ reff, options }) => {
@@ -49,7 +48,8 @@ const Futureweather = ({ reff, options }) => {
         if (lat && lon) {
           const currentWeather = await axios
             .get(
-              `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_Key2}`
+              `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.API_Key2
+              }`
             )
             .then((res) => res.data);
 

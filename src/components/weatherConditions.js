@@ -1,0 +1,153 @@
+const weatherConditions = [
+  {
+    id: '01',
+    description: 'clear sky',
+    dayIcon: '01d.png',
+    nightIcon: '01n.png',
+  },
+  {
+    id: '02',
+    description: 'few clouds',
+    dayIcon: '02d.png',
+    nightIcon: '02n.png',
+  },
+  {
+    id: '03',
+    description: 'scattered clouds',
+    dayIcon: '03d.png',
+    nightIcon: '03n.png',
+  },
+  {
+    id: '04',
+    description: 'broken clouds',
+    dayIcon: '04d.png',
+    nightIcon: '04n.png',
+  },
+  {
+    id: '09',
+    description: 'shower rain',
+    dayIcon: '09d.png',
+    nightIcon: '09n.png',
+  },
+  { id: '10', description: 'rain', dayIcon: '10d.png', nightIcon: '10n.png' },
+  {
+    id: '11',
+    description: 'thunderstorm',
+    dayIcon: '11d.png',
+    nightIcon: '11n.png',
+  },
+  { id: '13', description: 'snow', dayIcon: '13d.png', nightIcon: '13n.png' },
+  { id: '50', description: 'mist', dayIcon: '50d.png', nightIcon: '50n.png' },
+  // Weather condition codes grouped by type
+  {
+    code: 200,
+    group: 'Thunderstorm',
+    description: 'thunderstorm with light rain',
+    icon: '11d',
+  },
+  {
+    code: 201,
+    group: 'Thunderstorm',
+    description: 'thunderstorm with rain',
+    icon: '11d',
+  },
+  {
+    code: 202,
+    group: 'Thunderstorm',
+    description: 'thunderstorm with heavy rain',
+    icon: '11d',
+  },
+  {
+    code: 210,
+    group: 'Thunderstorm',
+    description: 'light thunderstorm',
+    icon: '11d',
+  },
+  {
+    code: 211,
+    group: 'Thunderstorm',
+    description: 'thunderstorm',
+    icon: '11d',
+  },
+  {
+    code: 212,
+    group: 'Thunderstorm',
+    description: 'heavy thunderstorm',
+    icon: '11d',
+  },
+  {
+    code: 221,
+    group: 'Thunderstorm',
+    description: 'ragged thunderstorm',
+    icon: '11d',
+  },
+  {
+    code: 230,
+    group: 'Thunderstorm',
+    description: 'thunderstorm with light drizzle',
+    icon: '11d',
+  },
+  {
+    code: 231,
+    group: 'Thunderstorm',
+    description: 'thunderstorm with drizzle',
+    icon: '11d',
+  },
+  {
+    code: 232,
+    group: 'Thunderstorm',
+    description: 'thunderstorm with heavy drizzle',
+    icon: '11d',
+  },
+  {
+    code: 300,
+    group: 'Drizzle',
+    description: 'light intensity drizzle',
+    icon: '09d',
+  },
+  { code: 301, group: 'Drizzle', description: 'drizzle', icon: '09d' },
+  {
+    code: 302,
+    group: 'Drizzle',
+    description: 'heavy intensity drizzle',
+    icon: '09d',
+  },
+  // Additional weather conditions can be added here
+  {
+    code: 800,
+    group: 'Clear',
+    description: 'clear sky',
+    icon: '01d',
+    iconNight: '01n',
+  },
+  {
+    code: 801,
+    group: 'Clouds',
+    description: 'few clouds: 11-25%',
+    icon: '02d',
+    iconNight: '02n',
+  },
+  {
+    code: 802,
+    group: 'Clouds',
+    description: 'scattered clouds: 25-50%',
+    icon: '03d',
+    iconNight: '03n',
+  },
+  {
+    code: 803,
+    group: 'Clouds',
+    description: 'broken clouds: 51-84%',
+    icon: '04d',
+    iconNight: '04n',
+  },
+  {
+    code: 804,
+    group: 'Clouds',
+    description: 'overcast clouds: 85-100%',
+    icon: '04d',
+    iconNight: '04n',
+  },
+];
+
+export default weatherConditions;

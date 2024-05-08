@@ -1,6 +1,5 @@
 import './country.css';
 import { useEffect, useState } from 'react';
-import API_Key from '../../apikey';
 
 const Country = ({ reff }) => {
   const [weatherData, setWeatherData] = useState({ name: '', region: '' });
@@ -11,7 +10,7 @@ const Country = ({ reff }) => {
     const options = {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': API_Key,
+        'X-RapidAPI-Key': process.env.API_Key,
       },
     };
 
