@@ -20,7 +20,7 @@ const Country = ({ reff }) => {
           options
         );
         const jsonData = await response.json();
-        console.log(jsonData);
+        // console.log(jsonData);
         setWeatherData(jsonData.basicInfo);
       } catch (error) {
         console.error('Error fetching weather data:', error);

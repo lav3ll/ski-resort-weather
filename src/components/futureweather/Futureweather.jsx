@@ -4,93 +4,106 @@ import Otherdays from './otherdays/Otherdays';
 import API_Key2 from '../../apikey2';
 
 const Futureweather = ({ reff, options }) => {
-  const [weatherData, setWeatherData] = useState({});
-  const [weatherData2, setWeatherData2] = useState({});
-  const [today, setToday] = useState('');
+  const [weather, setWeather] = useState({
+    conditions: {},
+    forecast: {},
+    currentWeather: {},
+  });
+  const [today, setToday] = useState(
+    new Date().toLocaleString('default', { weekday: 'long' })
+  );
+
   useEffect(() => {
-    const getWeatherDataFetch = async () => {
+    const fetchWeatherData = async () => {
       try {
-        const response = await fetch(
-          `https://ski-resort-forecast.p.rapidapi.com/${reff.current.value}/snowConditions?units=m`,
+        if (!reff.current.value) return;
+
+        const apiUrl = `https://ski-resort-forecast.p.rapidapi.com/${reff.current.value}`;
+        const conditionsResponse = await fetch(
+          `${apiUrl}/snowConditions?units=m`,
           options
         );
-        const jsonData = await response.json();
-        setWeatherData(jsonData);
-
-        const res = await fetch(
-          `https://ski-resort-forecast.p.rapidapi.com/${reff.current.value}/forecast?units=m&el=bot`,
+        const forecastResponse = await fetch(
+          `${apiUrl}/forecast?units=m&el=bot`,
           options
         );
-        const data = await res.json();
-        setWeatherData2(data);
 
-        const today = new Date().toLocaleString('default', { weekday: 'long' });
-        setToday(today);
+        const [conditionsData, forecastData] = await Promise.all([
+          conditionsResponse.json(),
+          forecastResponse.json(),
+        ]);
 
-        if (
-          jsonData.basicInfo &&
-          jsonData.basicInfo.lat &&
-          jsonData.basicInfo.lon
-        ) {
-          const response2 = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${jsonData.basicInfo.lon}&lon=${jsonData.basicInfo.lat}&exclude=hourly,minutely&units=metric&appid=${API_Key2}`
+        setWeather((prev) => ({
+          ...prev,
+          conditions: conditionsData,
+          forecast: forecastData,
+        }));
+
+        // Additional call if needed, refactored to avoid unnecessary state updates
+        if (conditionsData.basicInfo) {
+          const { lat, lon } = conditionsData.basicInfo;
+          const weatherResponse = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lon}&lon=${lat}&exclude=hourly,minutely&units=metric&appid=${API_Key2}`,
+            { mode: 'cors' }
           );
-          const data2 = await response2.json();
-          console.log(data2);
-          setWeatherData(data2);
+          const currentWeather = await weatherResponse.json();
+          setWeather((prev) => ({ ...prev, currentWeather }));
         }
       } catch (error) {
         console.error('Error fetching weather data:', error);
       }
     };
 
-    if (reff.current.value) {
-      getWeatherDataFetch();
-    }
-  }, [reff, options]);
+    fetchWeatherData();
+  }, [reff.current.value, options]);
 
   return (
     <div className='future-forecast'>
       <div className='today' id='current-temp'>
-        {weatherData && weatherData.daily && weatherData.daily[0] && (
+        {weather.currentWeather.daily && weather.currentWeather.daily[0] && (
           <img
-            src={`http://openweathermap.org/img/wn/${weatherData.daily[0].weather[0].icon}@2x.png`}
+            src={`https://openweathermap.org/img/wn/${weather.currentWeather.daily[0].weather[0].icon}@2x.png`}
             alt='weather icon'
             className='w-icon'
           />
         )}
         <div className='other'>
-          {weatherData2.forecast5Day && weatherData2.forecast5Day[0] && (
-            <>
-              <div className='day'>{today}</div>
-              <div className='temp'>
-                {weatherData.daily &&
-                weatherData.daily[0] &&
-                weatherData.daily[0].temp &&
-                weatherData.daily[0].temp.night
-                  ? `Night ${weatherData.daily[0].temp.night}`
-                  : 'Loading'}
-              </div>
-              <div className='temp'>
-                {weatherData.daily &&
-                weatherData.daily[0] &&
-                weatherData.daily[0].temp &&
-                weatherData.daily[0].temp.night
-                  ? `Day ${weatherData.daily[0].temp.day}`
-                  : 'Loading'}
-              </div>
-            </>
-          )}
+          {weather.forecast.forecast5Day &&
+            weather.forecast.forecast5Day[0] && (
+              <>
+                <div className='day'>{today}</div>
+                <div className='temp'>
+                  {weather.currentWeather.daily &&
+                  weather.currentWeather.daily[0] &&
+                  weather.currentWeather.daily[0].temp &&
+                  weather.currentWeather.daily[0].temp.night
+                    ? `Night ${weather.currentWeather.daily[0].temp.night}`
+                    : 'Loading'}
+                </div>
+                <div className='temp'>
+                  {weather.currentWeather.daily &&
+                  weather.currentWeather.daily[0] &&
+                  weather.currentWeather.daily[0].temp &&
+                  weather.currentWeather.daily[0].temp.day
+                    ? `Day ${weather.currentWeather.daily[0].temp.day}`
+                    : 'Loading'}
+                </div>
+              </>
+            )}
         </div>
       </div>
-      {weatherData2.forecast5Day &&
-        weatherData2.forecast5Day.map((day, idx) => (
+      {weather.forecast.forecast5Day &&
+        weather.forecast.forecast5Day.map((day, idx) => (
           <Otherdays
             key={idx}
             day={day.dayOfWeek}
             am={day.am.maxTemp}
             pm={day.pm.minTemp}
-            // icon={weatherData.daily[idx]?.weather[0]?.icon}
+            // Optional: Add icon logic if needed
+            icon={
+              weather.currentWeather.daily &&
+              weather.currentWeather.daily[idx]?.weather[0]?.icon
+            }
           />
         ))}
     </div>
