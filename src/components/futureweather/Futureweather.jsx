@@ -130,7 +130,6 @@ function renderWeatherComponent(weather, today) {
               </>
             )}
         </div>
-        ;
       </div>
       {forecastAvailable &&
         weather.forecast.forecast5Day.map((day, idx) => (
