@@ -27,7 +27,12 @@ const Country = ({ reff }) => {
           `https://ski-resort-forecast.p.rapidapi.com/${reff.current.value}/snowConditions?units=i`,
           options
         );
-        if (!response.ok) throw new Error('Failed to fetch weather data');
+        if (!response.ok) {
+          if (response.status === 429) {
+            throw new Error('Too many requests - please try again later');
+          }
+          throw new Error('Failed to fetch weather data');
+        }
         const jsonData = await response.json();
         setWeatherData(jsonData.basicInfo || {});
       } catch (error) {
