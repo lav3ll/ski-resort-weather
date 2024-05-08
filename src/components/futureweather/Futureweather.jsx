@@ -4,43 +4,41 @@ import axios from 'axios';
 import Otherdays from './otherdays/Otherdays';
 import API_Key2 from '../../apikey2';
 
-// Component to display future weather conditions based on a reference location
+// Main component to display future weather conditions based on a reference location
 const Futureweather = ({ reff, options }) => {
-  // State to store different types of weather data
+  // State for storing detailed weather data
   const [weather, setWeather] = useState({
     conditions: {},
     forecast: {},
     currentWeather: {},
   });
 
-  // State to store the current day of the week
+  // State for the current weekday
   const [today, setToday] = useState(
     new Date().toLocaleString('default', { weekday: 'long' })
   );
 
-  // States for managing loading and error states
+  // State for loading and error management
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Effect to fetch weather data when the reference or options change
   useEffect(() => {
     const fetchWeatherData = async () => {
-      // Early exit if no reference value is provided
+      // Verify that a reference location is provided
       if (!reff.current.value) {
         setError('Location is required');
         setLoading(false);
         return;
       }
 
-      // Initialize loading and clear previous errors
       setLoading(true);
       setError('');
 
       try {
-        // Construct the API URL using the reference value
+        // Construct the API URL with the location reference
         const apiUrl = `https://ski-resort-forecast.p.rapidapi.com/${reff.current.value}`;
 
-        // Parallel requests to fetch conditions and forecast data
+        // Perform parallel API requests for conditions and forecast data
         const [conditionsData, forecastData] = await Promise.all([
           axios
             .get(`${apiUrl}/snowConditions?units=m`, options)
@@ -50,58 +48,68 @@ const Futureweather = ({ reff, options }) => {
             .then((res) => res.data),
         ]);
 
-        // Check for latitude and longitude in the conditions data
-        const { lat, lon } = conditionsData.basicInfo || {};
+        let { lat, lon } = conditionsData.basicInfo || {};
+
+        // Check and correct latitude and longitude values if necessary
+        if (!isValidLatLon(lat, lon)) {
+          [lat, lon] = [lon, lat]; // Swap latitude and longitude if they are reversed
+        }
+
         if (lat && lon) {
-          // Fetch detailed current weather data using coordinates
+          // Fetch current weather details using valid lat and lon
           const currentWeather = await axios
             .get(
               `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${API_Key2}`
             )
             .then((res) => res.data);
 
-          // Update the weather state with all fetched data
+          // Update the state with the new weather data
           setWeather({
             conditions: conditionsData,
             forecast: forecastData,
             currentWeather,
           });
+          console.log(weather);
         } else {
-          // Handle cases where basic location info is incomplete
-          setWeather({
-            conditions: conditionsData,
-            forecast: forecastData,
-            currentWeather: {},
-          });
+          // Set an error if the location details are incomplete
           setError('Location details incomplete in API data.');
         }
       } catch (error) {
-        // Handle errors and set error state
-        console.error('Error fetching weather data:', error);
+        // Handle API or network errors
         setError(
           error.message ||
             'Failed to load weather data. Please try again later.'
         );
       } finally {
-        // Ensure loading is set to false once the data fetching completes or fails
+        // Ensure the loading state is updated regardless of the outcome
         setLoading(false);
       }
     };
 
     fetchWeatherData();
-  }, [reff.current.value, options]); // Depend on reference value and options for re-fetching
+  }, [reff.current.value, options]);
 
-  // Display loading indicator while data is being fetched
+  // Display a loading indicator while the data is being fetched
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // Display error message if any errors occurred during fetching
+  // Display an error message if there was a problem fetching the data
   if (error) {
     return <p className='error'>{error}</p>;
   }
 
-  // Render the component with fetched weather data
+  // Render the weather information once it is available
+  return renderWeatherComponent(weather, today);
+};
+
+// Function to validate latitude and longitude values
+function isValidLatLon(lat, lon) {
+  return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
+}
+
+// Function to render the weather component using fetched data
+function renderWeatherComponent(weather, today) {
   return (
     <div className='future-forecast'>
       <div className='today' id='current-temp'>
@@ -155,6 +163,6 @@ const Futureweather = ({ reff, options }) => {
         ))}
     </div>
   );
-};
+}
 
 export default Futureweather;
