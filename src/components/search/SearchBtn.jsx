@@ -1,14 +1,11 @@
-import './searchbtn.css'
-const SearchBtn = ({handleSubmit,reff}) => {
+import './searchbtn.css';
 
-
-
-
+const SearchBtn = () => {
   return (
-    <button type='submit' className='.btn searchbox-submit' onClick={()=>handleSubmit(reff.current.value)} reff={reff} onSubmit={()=>handleSubmit(reff.current.value)} >
-        Submit
+    <button type='submit' className='btn searchbox-submit'>
+      Submit
     </button>
-  )
-}
+  );
+};
 
-export default SearchBtn
+export default SearchBtn;
